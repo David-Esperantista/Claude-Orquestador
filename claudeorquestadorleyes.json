@@ -1,0 +1,33 @@
+{
+  "modelos": {
+    "rapido": {
+      "slug": "google/gemini-2.5-flash",
+      "uso": "resúmenes, traducciones, formato, preguntas factuales simples"
+    },
+    "codigo": {
+      "slug": "meta-llama/llama-3.3-70b-instruct",
+      "uso": "código corto y bien definido (funciones, scripts, conversiones)"
+    }
+  },
+  "reglas": [
+    "Delega solo tareas simples, mecánicas y bien definidas.",
+    "Resuelve tú mismo todo lo que requiera razonamiento de varios pasos, diseño, depuración, matemáticas delicadas o contexto de la conversación.",
+    "Ante la duda, hazlo tú.",
+    "Revisa siempre el resultado del especialista antes de dárselo al usuario y corrígelo si tiene errores.",
+    "Cuando delegues, dile al usuario qué modelo se usó.",
+    "Nunca envíes a otro modelo contraseñas, claves ni datos personales."
+  ],
+  "limites": {
+    "max_caracteres_tarea": 4000,
+    "temas_prohibidos": [
+      "contraseña",
+      "password",
+      "api key",
+      "apikey",
+      "clave privada",
+      "private key",
+      "tarjeta de crédito"
+    ],
+    "instruccion_especialistas": "Responde en el idioma de la tarea, de forma breve y sin preámbulos."
+  }
+}
