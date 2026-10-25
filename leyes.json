@@ -1,14 +1,14 @@
 {
-  "modelos": {
-    "rapido": {
-      "slug": "google/gemini-2.5-flash",
-      "uso": "resúmenes, traducciones, formato, preguntas factuales simples"
-    },
-    "codigo": {
-      "slug": "meta-llama/llama-3.3-70b-instruct",
-      "uso": "código corto y bien definido (funciones, scripts, conversiones)"
-    }
-  },
+   "modelos": {
+     "rapido": {
+       "slug": "openrouter/free",
+       "uso": "resúmenes, traducciones, formato, preguntas factuales simples"
+     },
+     "codigo": {
+       "slug": "openrouter/free",
+       "uso": "código corto y bien definido (funciones, scripts, conversiones)"
+     }
+   },
   "reglas": [
     "Delega solo tareas simples, mecánicas y bien definidas.",
     "Resuelve tú mismo todo lo que requiera razonamiento de varios pasos, diseño, depuración, matemáticas delicadas o contexto de la conversación.",
