@@ -28,10 +28,13 @@ from datetime import datetime, timezone
 import httpx
 from mcp.server.fastmcp import FastMCP
 
-API_KEY = os.environ["OPENROUTER_API_KEY"]
-SECRET = os.environ["MCP_SECRET"]
-if len(SECRET) < 24:
-    sys.exit("MCP_SECRET debe tener al menos 24 caracteres.")
+# .strip() quita espacios y saltos de línea que se cuelan al pegar en el hosting.
+API_KEY = os.environ["OPENROUTER_API_KEY"].strip()
+SECRET = os.environ["MCP_SECRET"].strip()
+if not API_KEY or re.search(r"\s", API_KEY):
+    sys.exit("OPENROUTER_API_KEY está vacía o contiene espacios internos; vuelve a pegarla.")
+if len(SECRET) < 24 or re.search(r"[\s/+=]", SECRET):
+    sys.exit("MCP_SECRET debe tener 24+ caracteres, sin espacios ni '/', '+', '='.")
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 LEYES_PATH = os.environ.get(
@@ -43,6 +46,12 @@ LIMITES_VALIDOS = ("max_caracteres_tarea", "temas_prohibidos", "instruccion_espe
 # El registro va a stdout: los hostings lo guardan en su panel de logs.
 logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
 log = logging.getLogger("orquestador")
+
+
+def ocultar(texto: str) -> str:
+    """Quita la clave de OpenRouter (y cualquier cosa con forma de clave) de un texto."""
+    texto = texto.replace(API_KEY, "[clave oculta]")
+    return re.sub(r"sk-or-[A-Za-z0-9_\-]+", "[clave oculta]", texto)
 
 
 def registrar(evento: dict) -> None:
@@ -206,7 +215,7 @@ async def delegar(especialista: str, tarea: str, motivo: str) -> str:
             resultado = f"[Modelo usado: {modelo_real} | especialista: {especialista}]\n{contenido}"
             ok = True
         except Exception as e:  # un especialista caído no debe romper la conversación
-            resultado = f"ERROR al delegar ({especialista} -> {slug}): {e}"
+            resultado = f"ERROR al delegar ({especialista} -> {slug}): {ocultar(str(e))}"
 
     registrar(
         {
