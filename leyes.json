@@ -19,7 +19,7 @@
     "Nunca envíes a otro modelo contraseñas, claves ni datos personales."
   ],
   "limites": {
-    
+    "max_caracteres_tarea": 50000,
     "temas_prohibidos": [
       "contraseña",
       "password",
